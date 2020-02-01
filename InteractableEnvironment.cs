@@ -7,12 +7,15 @@ public class InteractableEnvironment : Interactables
 {
     public string roomName;
     public GameObject room;
+    public Player player;
     public Image fadeImage;
     public FadeManager fadeManager;
 
-    public override void Interact(string name) {
+    public override void Interact(string name)
+    {
         fadeManager.StopAllCoroutines();
-        StartCoroutine(fadeManager.Fade(Color.black, fadeImage));
-        Camera.main.transform.position = room.transform.position;
+        fadeImage.color = Color.clear;
+        StartCoroutine(GameObject.FindGameObjectWithTag("FadeManager").GetComponent<FadeManager>().Fade(Color.black, fadeImage));
+        player.transform.position = room.transform.position;
     }
 }
