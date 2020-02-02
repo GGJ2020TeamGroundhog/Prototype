@@ -17,10 +17,10 @@ public class GameManager : MonoBehaviour
     public bool isPaused = false;
     public Image fadeImage;
     public FadeManager fadeManager;
+    public bool timeRestart = false;
 
 
-
-    private float timeIteration;
+    [HideInInspector] public float timeIteration;
     private float timeLeft = TIMELIMIT;
     public TextMeshProUGUI timerText;
     // Start is called before the first frame update
@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour
             { 
                 if (timeLeft <= 0.0f)
                 {
+                    timeRestart = true;
                     timerText.enabled =false;
                     yield return timerEnded();
                     timerText.enabled=true;
@@ -69,20 +70,19 @@ public class GameManager : MonoBehaviour
     }
     IEnumerator timerEnded()
     {
-        timeIteration++;
         timeLeft = TIMELIMIT;
         Debug.Log("REWIND TIME\n Time iteration: "+timeIteration);
         fadeImage.color = Color.clear;
 
         yield return GameObject.FindGameObjectWithTag("FadeManager").GetComponent<FadeManager>().Fade(Color.blue, fadeImage, teleportDes);
-        RewindTime();
 
     }
 
     public void RewindTime()
     {
+        timeIteration++;
         player.SetDefault();
-
+        timeRestart = false;
 
 
     }
