@@ -12,8 +12,8 @@ public class GameManager : MonoBehaviour
     private const float TIMELIMIT = 10.0f;
 
 
-    [SerializeField] Player player;
-    [SerializeField] Transform teleportDes;
+    public Player player;
+    public GameObject teleportDes;
     public bool isPaused = false;
     public Image fadeImage;
     public FadeManager fadeManager;
@@ -38,7 +38,10 @@ public class GameManager : MonoBehaviour
         timerText.text = (timeLeft.ToString()  );
     }
 
-
+    public void Teleport(GameObject spawnPoint)
+    {
+        player.transform.position = spawnPoint.transform.position;
+    }
 
 
 
@@ -47,39 +50,37 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            if (timeLeft <= 0.0f)
-            {
-                timerEnded();
-                yield break;
+            while (!isPaused)
+            { 
+                if (timeLeft <= 0.0f)
+                {
+                    timerText.enabled =false;
+                    yield return timerEnded();
+                    timerText.enabled=true;
+                }
+                else
+                {
+                    yield return new WaitForSeconds(1);
+                    timeLeft--;
+                }
             }
-            else
-            {
-                yield return new WaitForSeconds(1);
-                timeLeft--;
-            }
+            yield return null;
         }
     }
-    void timerEnded()
+    IEnumerator timerEnded()
     {
-
-        RewindTime();
-        fadeManager.StopAllCoroutines();
+        timeIteration++;
+        timeLeft = TIMELIMIT;
+        Debug.Log("REWIND TIME\n Time iteration: "+timeIteration);
         fadeImage.color = Color.clear;
-        StartCoroutine(GameObject.FindGameObjectWithTag("FadeManager").GetComponent<FadeManager>().Fade(Color.blue, fadeImage));
+
+        yield return GameObject.FindGameObjectWithTag("FadeManager").GetComponent<FadeManager>().Fade(Color.blue, fadeImage, teleportDes);
+
 
     }
 
     void RewindTime()
     {
-        player.transform.position = teleportDes.position;
-        timeIteration++;
-
-        Debug.Log("REWIND TIME\n Time iteration: "+timeIteration);
-        timeLeft = TIMELIMIT;
-
-
-        StartCoroutine("LoseTime");
-
     }
 
 }

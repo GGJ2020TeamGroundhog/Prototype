@@ -8,25 +8,33 @@ public class FadeManager : MonoBehaviour
     public Image fadeImage;
     public float fadeSpeed;
     public bool fading;
+    public GameManager gameManager;
 
-    private void Awake() {
+    private void Awake()
+    {
         fadeImage.transform.localScale = new Vector2(Screen.width, Screen.height);
-        StartCoroutine(Fade());
+        gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
+        StartCoroutine(Fade(Color.black, fadeImage, gameManager.teleportDes));
     }
 
-    public IEnumerator Fade() {
+    public IEnumerator Fade(Color color, Image image, GameObject room)
+    {
         fading = true;
-        yield return FadeIn();
-        yield return new WaitForSeconds(0.5f);
-        yield return FadeOut();
+        yield return FadeIn(color, image);
+        gameManager.Teleport(room);
+        yield return new WaitForSeconds(0.25f);
+        yield return FadeOut(image);
         fading = false;
     }
 
-    public IEnumerator FadeIn() {
-        while(fading) {
-            fadeImage.color = Color.Lerp(fadeImage.color, Color.black, fadeSpeed * Time.deltaTime);
-            if (fadeImage.color.a >= 0.95f) {
-                fadeImage.color = Color.black;
+    public IEnumerator FadeIn(Color color, Image image)
+    {
+        while (fading)
+        {
+            fadeImage.color = Color.Lerp(image.color, color, fadeSpeed * Time.deltaTime);
+            if (fadeImage.color.a >= 0.95f)
+            {
+                fadeImage.color = image.color;
                 yield break;
             }
 
@@ -34,10 +42,13 @@ public class FadeManager : MonoBehaviour
         }
     }
 
-    public IEnumerator FadeOut() {
-        while (fading) {
-            fadeImage.color = Color.Lerp(fadeImage.color, Color.clear, fadeSpeed * Time.deltaTime);
-            if (fadeImage.color.a <= 0.05f) {
+    public IEnumerator FadeOut(Image image)
+    {
+        while (fading)
+        {
+            fadeImage.color = Color.Lerp(image.color, Color.clear, fadeSpeed * Time.deltaTime);
+            if (fadeImage.color.a <= 0.05f)
+            {
                 fadeImage.color = Color.clear;
                 yield break;
             }

@@ -52,6 +52,15 @@ public class Player : MonoBehaviour
             rb2d.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
             isGrounded = false;
         }
+        if (Input.GetKeyDown(KeyCode.P)){
+            Pause();
+        }
+
+    }
+    void Pause()
+    {
+        gameManager.isPaused = !gameManager.isPaused;
+        Debug.Log("Game is paused: "+gameManager.isPaused);
     }
     void fixedUpdate()
     {
