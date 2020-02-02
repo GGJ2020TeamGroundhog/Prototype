@@ -75,12 +75,16 @@ public class GameManager : MonoBehaviour
         fadeImage.color = Color.clear;
 
         yield return GameObject.FindGameObjectWithTag("FadeManager").GetComponent<FadeManager>().Fade(Color.blue, fadeImage, teleportDes);
-
+        RewindTime();
 
     }
 
-    void RewindTime()
+    public void RewindTime()
     {
+        player.SetDefault();
+
+
+
     }
 
 }

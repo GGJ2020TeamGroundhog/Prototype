@@ -14,9 +14,12 @@ public class Player : MonoBehaviour
     public ContactFilter2D contactFilter;
     public string equippedTool;
     public GameManager gameManager;
+    private Animator anim;
+    private bool flipped=false;
     public bool inDialogue;
     public bool waitingForNextBubble;
     public DialogueTrigger dt;
+
 
     private Transform transform;
 
@@ -26,8 +29,14 @@ public class Player : MonoBehaviour
         collider = GetComponent<Collider2D>();
         transform = GetComponent<Transform>();
         rb2d = GetComponent<Rigidbody2D>();
+        anim = this.GetComponent<Animator>();
     }
-
+    public void SetDefault()
+    {
+        anim.SetTrigger("Respawn");
+        this.transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        flipped = false;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -49,6 +58,20 @@ public class Player : MonoBehaviour
                 interactables[0].gameObject.GetComponent<Interactables>().Interact(tool);
             }
         }
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            if (waitingForNextBubble)
+            {
+                dt.PlayNext();
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Z)) {
+            if (waitingForNextBubble) {
+                dt.PlayNext();
+            }
+        }
+
 
         if ((Input.GetKeyDown("w") || Input.GetKeyDown("space")) && isGrounded)
         {
@@ -58,13 +81,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P)){
             Pause();
         }
-
-        if (Input.GetKeyDown(KeyCode.Z)) {
-            if (waitingForNextBubble) {
-                dt.PlayNext();
-            }
-        }
-
+        WalkingInput(Input.GetAxis("Horizontal"));
     }
     void Pause()
     {
@@ -82,4 +99,31 @@ public class Player : MonoBehaviour
             isGrounded = true;
         }
     }
+    void WalkingInput(float movement)
+    {
+        //For the purposes of this animator, left direction = -1.0 and right direction = 1.0
+        //These bool and float values were defined within the animator as assets
+        //If you need the animations, I'll just send the .unity file.
+        if (movement!= 0)
+        {
+            anim.SetBool("walking", true);
+            if (movement < 0 && !flipped)
+            {
+                flipped = true;
+                this.transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+            }
+            else if (movement > 0 && flipped)
+            {
+                flipped = false;
+                this.transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+            }
+        }
+        else
+        {
+            anim.SetBool("walking", false);
+        }
+
+    }
+
+
 }

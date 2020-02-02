@@ -29,17 +29,17 @@ public class DialogueManager : MonoBehaviour
     the player is in a conversation that must be progressed by pressing 'E', plus when the dialogue ends
     and the player's free to move again)
     */
-    private PlayerControl pc;
+    private Player player;
 
     // Start is called before the first frame update
     void Start()
     {
-        pc = FindObjectOfType<PlayerControl>();
+        player = FindObjectOfType<Player>();
     }
 
     public void StartNewDialogue(DialogueByCharacter character, int index)
     {
-        pc.inDialogue = true;
+        player.inDialogue = true;
         currentCharacter = character;
         currentDialogue = currentCharacter.dialogues[index];
         PlayBubble();
@@ -97,11 +97,11 @@ public class DialogueManager : MonoBehaviour
         {
             if (currentBubble < currentDialogue.bubbles.Length - 1)
             {
-                pc.waitingForNextBubble = true;
+                player.waitingForNextBubble = true;
             }
             else
             {
-                pc.waitingForNextBubble = false;
+                player.waitingForNextBubble = false;
             }
             //At first, should bring up the dialogue boxes (hidden otherwise)
             StopCoroutine(PlayChar());
@@ -110,7 +110,7 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            pc.inDialogue = false;
+            player.inDialogue = false;
             //Should hide the dialogue boxes once that convo is over
             Debug.Log("Done!");
         }

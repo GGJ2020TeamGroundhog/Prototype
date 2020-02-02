@@ -19,7 +19,7 @@ public class DialogueByCharacter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("DialogueCharacterPlayer").GetComponent<DialogueHead>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<DialogueHead>();
         other = GetComponent<DialogueHead>();
     }
 }

@@ -22,6 +22,7 @@ public class FadeManager : MonoBehaviour
         fading = true;
         yield return FadeIn(color, image);
         gameManager.Teleport(room);
+        gameManager.RewindTime();
         yield return new WaitForSeconds(0.25f);
         yield return FadeOut(image);
         fading = false;
