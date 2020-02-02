@@ -6,9 +6,9 @@ using TMPro;
 
 public class DialogueManager : MonoBehaviour
 {
-    public TextMeshProUGUI characterName;
-    public TextMeshProUGUI characterSpeech;
-    public Image image;
+    private TextMeshProUGUI characterName;
+    private TextMeshProUGUI characterSpeech;
+    private Image image;
     public AudioSource sfxSource;
 
     private DialogueByCharacter currentCharacter;

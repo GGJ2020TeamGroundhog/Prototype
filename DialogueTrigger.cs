@@ -13,7 +13,7 @@ public class DialogueTrigger : MonoBehaviour
     }
     public void StartDialogue()
     {
-        FindObjectOfType<DialogueManager>().StartNewDialogue(character, index);
+        GetComponent<DialogueManager>().StartNewDialogue(character, index);
     }
     public void StartMonologue()
     {
@@ -22,6 +22,6 @@ public class DialogueTrigger : MonoBehaviour
     //Remove this later; GM should take care of it
     public void PlayNext()
     {
-        FindObjectOfType<DialogueManager>().PlayBubble();
+        GetComponent<DialogueManager>().PlayBubble();
     }
 }

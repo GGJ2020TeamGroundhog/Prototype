@@ -6,8 +6,8 @@ using UnityEngine;
 public class DialogueByCharacter : MonoBehaviour
 {
     public List<Dialogue> dialogues;
-    public DialogueHead player;
-    public DialogueHead other;
+    [HideInInspector] public DialogueHead player;
+    [HideInInspector] public DialogueHead other;
 
     public enum SpeakingOrder
     {

@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class NPC : Interactables
 {
-    public DialogueTrigger dialogueTrigger;
+    private DialogueTrigger dialogueTrigger;
     public int startIndex;
 
     private void Start() {
-
+        dialogueTrigger = GameObject.FindGameObjectWithTag("DialogueManager").GetComponent<DialogueTrigger>();
         dialogueTrigger.index = startIndex;
         dialogueTrigger.character = GetComponent<DialogueByCharacter>();
     }
