@@ -5,10 +5,12 @@ using UnityEngine;
 public class NPC : Interactables
 {
     public DialogueTrigger dialogueTrigger;
-    public Dialogue dialogue;
+    public int startIndex;
 
     private void Start() {
-        dialogueTrigger.dialogue = dialogue;
+
+        dialogueTrigger.index = startIndex;
+        dialogueTrigger.character = GetComponent<DialogueByCharacter>();
     }
 
     public override void Interact(string noUse) {

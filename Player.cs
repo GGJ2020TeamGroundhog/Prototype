@@ -14,6 +14,9 @@ public class Player : MonoBehaviour
     public ContactFilter2D contactFilter;
     public string equippedTool;
     public GameManager gameManager;
+    public bool inDialogue;
+    public bool waitingForNextBubble;
+    public DialogueTrigger dt;
 
     private Transform transform;
 
@@ -54,6 +57,12 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.P)){
             Pause();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Z)) {
+            if (waitingForNextBubble) {
+                dt.PlayNext();
+            }
         }
 
     }
