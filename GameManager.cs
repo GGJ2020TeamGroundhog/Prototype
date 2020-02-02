@@ -12,13 +12,14 @@ public class GameManager : MonoBehaviour
     private const float TIMELIMIT = 10.0f;
 
 
-    public Player player;
+    private Player player;
     public GameObject teleportDes;
     public bool isPaused = false;
     public Image fadeImage;
     public FadeManager fadeManager;
     public bool timeRestart = false;
-
+    private Image fadeImage;
+    private FadeManager fadeManager;
 
     [HideInInspector] public float timeIteration;
     private float timeLeft = TIMELIMIT;
@@ -26,6 +27,9 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        fadeManager = GameObject.FindGameObjectWithTag("FadeManager").GetComponent<FadeManager>();
+        fadeImage = GameObject.FindGameObjectWithTag("FadeImage").GetComponent<Image>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         timeIteration = 1;
         timerText.text = (timeLeft.ToString());
         StartCoroutine("LoseTime");

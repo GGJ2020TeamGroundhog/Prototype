@@ -5,13 +5,14 @@ using UnityEngine.UI;
 
 public class FadeManager : MonoBehaviour
 {
-    public Image fadeImage;
+    private Image fadeImage;
     public float fadeSpeed;
     public bool fading;
-    public GameManager gameManager;
+    private GameManager gameManager;
 
     private void Awake()
     {
+        fadeImage = GameObject.FindGameObjectWithTag("FadeImage").GetComponent<Image>();
         fadeImage.transform.localScale = new Vector2(Screen.width, Screen.height);
         gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
         StartCoroutine(Fade(Color.black, fadeImage, gameManager.teleportDes));

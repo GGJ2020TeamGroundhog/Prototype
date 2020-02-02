@@ -5,15 +5,12 @@ using UnityEngine.UI;
 
 public class InteractableEnvironment : Interactables
 {
-    public GameManager gameManager;
-    public string roomName;
     public GameObject room;
-    public Player player;
     public Image fadeImage;
     public FadeManager fadeManager;
     public void Awake()
     {
-        gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
+        fadeImage = GameObject.FindGameObjectWithTag("FadeImage").GetComponent<Image>();
     }
     public override void Interact(string name)
     {
